@@ -2,7 +2,7 @@ package de.gtt.core;
 
 import java.util.List;
 
-import org.hibernate.Session;
+import javax.persistence.EntityManager;
 
 import de.gtt.core.entity.Card;
 import de.gtt.core.util.HibernateUtil;
@@ -13,10 +13,9 @@ public class CardService {
 	}
 
 	public void save(Card card) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		session.saveOrUpdate(card);
-		session.getTransaction().commit();
-		session.close();
+		EntityManager entityManager = HibernateUtil.getEntityManager();
+		entityManager.getTransaction().begin();
+		entityManager.persist(card);
+		entityManager.getTransaction().commit();
 	}
 }
