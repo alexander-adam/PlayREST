@@ -1,10 +1,9 @@
 package de.gtt.core;
 
-import java.util.List;
-
 import de.gtt.core.entity.Card;
-import de.gtt.core.util.HibernateUtil;
 import junit.framework.TestCase;
+
+import java.util.List;
 
 public class CardServiceTest extends TestCase {
 	private CardService cardService;
@@ -16,7 +15,6 @@ public class CardServiceTest extends TestCase {
 
 	public void tearDown() throws Exception {
 		super.tearDown();
-		HibernateUtil.shutdown();
 	}
 
 	public void testGetAll() throws Exception {
