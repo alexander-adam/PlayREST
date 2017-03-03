@@ -1,0 +1,7 @@
+/*C3*/SET SCHEMA PUBLIC
+INSERT INTO CARD VALUES('e99de686-2011-4457-b64e-65629834a768','Audio 1','Audio 2',NULL,'It''s not a question',NULL,NULL,NULL,'Question','Question','2017-03-03 11:35:43.271000',NULL,NULL,NULL,NULL,'Das ist keine Frage','Image 1','Image 2','Image 3','Frage','Frage','Simple words','2017-03-03 11:35:43.271000',NULL)
+COMMIT
+DELETE FROM CARD WHERE UUID='e99de686-2011-4457-b64e-65629834a768'
+INSERT INTO CARD VALUES('e99de686-2011-4457-b64e-65629834a768','Audio 1','Audio 2',NULL,'It''s not a question','Image 1',NULL,NULL,'Question','Question',NULL,NULL,NULL,NULL,NULL,'Das ist keine Frage','Image 1','Image 2','Image 3','Frage','Frage','Simple words','2017-03-03 11:35:43.320000',NULL)
+COMMIT
+DISCONNECT

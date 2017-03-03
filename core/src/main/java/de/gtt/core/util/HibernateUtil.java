@@ -19,6 +19,10 @@ public class HibernateUtil {
 		return factory.createEntityManager();
 	}
 
+	public static void close() {
+		factory.close();
+	}
+
 	public static <E> List<E> getAll(Class<E> clazz) {
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<E> cq = cb.createQuery(clazz);

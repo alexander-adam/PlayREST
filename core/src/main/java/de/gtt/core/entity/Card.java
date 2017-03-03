@@ -7,18 +7,33 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "CARD")
+@XmlRootElement
+@NamedQueries(
+		{@NamedQuery(
+				name = "findByUUID",
+				query = "SELECT card FROM de.gtt.core.entity.Card card WHERE card.uuid = :uuid"
+		),
+		@NamedQuery(
+				name = "findAll",
+				query = "SELECT card FROM de.gtt.core.entity.Card card ORDER BY card.created DESC"
+		)}
+)
 public class Card implements Serializable {
 	private String uuid;
 
 	private Date created;
 	private Date updated;
+	private Date published;
 
 	private String unit;
 
@@ -52,7 +67,7 @@ public class Card implements Serializable {
 		return uuid;
 	}
 
-	public void setUuid(String uuid) {
+	protected void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
 
@@ -62,7 +77,7 @@ public class Card implements Serializable {
 		return created;
 	}
 
-	public void setCreated(Date created) {
+	protected void setCreated(Date created) {
 		this.created = created;
 	}
 
@@ -72,8 +87,17 @@ public class Card implements Serializable {
 		return updated;
 	}
 
-	public void setUpdated(Date updated) {
+	protected void setUpdated(Date updated) {
 		this.updated = updated;
+	}
+
+	@Column(name = "PUBLISHED")
+	public Date getPublished() {
+		return published;
+	}
+
+	public void setPublished(Date published) {
+		this.published = published;
 	}
 
 	@Column(name = "UNIT")
@@ -85,6 +109,11 @@ public class Card implements Serializable {
 		this.unit = unit;
 	}
 
+	public Card withUnit(String unit) {
+		this.unit = unit;
+		return this;
+	}
+
 	@Column(name = "QUESTION_TEXT")
 	public String getQuestionText() {
 		return questionText;
@@ -92,6 +121,11 @@ public class Card implements Serializable {
 
 	public void setQuestionText(String questionText) {
 		this.questionText = questionText;
+	}
+
+	public Card withQuestionText(String questionText) {
+		this.questionText = questionText;
+		return this;
 	}
 
 	@Column(name = "QUESTION_EXAMPLE")
@@ -103,6 +137,11 @@ public class Card implements Serializable {
 		this.questionExample = questionExample;
 	}
 
+	public Card withQuestionExample(String questionExample) {
+		this.questionExample = questionExample;
+		return this;
+	}
+
 	@Column(name = "QUESTION_TRANS")
 	public String getQuestionTranscription() {
 		return questionTranscription;
@@ -110,6 +149,11 @@ public class Card implements Serializable {
 
 	public void setQuestionTranscription(String questionTranscription) {
 		this.questionTranscription = questionTranscription;
+	}
+
+	public Card withQuestionTranscription(String questionTranscription) {
+		this.questionTranscription = questionTranscription;
+		return this;
 	}
 
 	@Column(name = "QUESTION_IMG1")
@@ -139,6 +183,23 @@ public class Card implements Serializable {
 		this.questionImage3 = questionImage3;
 	}
 
+	public Card withQuestionImage(String questionImage) {
+		if (this.questionImage1 == null) {
+			this.questionImage1 = questionImage;
+		}
+		else if (this.questionImage2 == null) {
+			this.questionImage2 = questionImage;
+		}
+		else if (this.questionImage3 == null) {
+			this.questionImage3 = questionImage;
+		}
+		else {
+			throw new IllegalStateException("No question image can be added since there's no free slot anymore.");
+		}
+
+		return this;
+	}
+
 	@Column(name = "QUESTION_AUDIO1")
 	public String getQuestionAudio1() {
 		return questionAudio1;
@@ -166,6 +227,23 @@ public class Card implements Serializable {
 		this.questionAudio3 = questionAudio3;
 	}
 
+	public Card withQuestionAudio(String questionAudio) {
+		if (this.questionAudio1 == null) {
+			this.questionAudio1 = questionAudio;
+		}
+		else if (this.questionAudio2 == null) {
+			this.questionAudio2 = questionAudio;
+		}
+		else if (this.questionAudio3 == null) {
+			this.questionAudio3 = questionAudio;
+		}
+		else {
+			throw new IllegalStateException("No question audio can be added since there's no free slot anymore.");
+		}
+
+		return this;
+	}
+
 	@Column(name = "ANSWER_TEXT")
 	public String getAnswerText() {
 		return answerText;
@@ -173,6 +251,11 @@ public class Card implements Serializable {
 
 	public void setAnswerText(String answerText) {
 		this.answerText = answerText;
+	}
+
+	public Card withAnswerText(String answerText) {
+		this.answerText = answerText;
+		return this;
 	}
 
 	@Column(name = "ANSWER_EXAMPLE")
@@ -184,6 +267,11 @@ public class Card implements Serializable {
 		this.answerExample = answerExample;
 	}
 
+	public Card withAnswerExample(String answerExample) {
+		this.answerExample = answerExample;
+		return this;
+	}
+
 	@Column(name = "ANSWER_TRANS")
 	public String getAnswerTranscription() {
 		return answerTranscription;
@@ -191,6 +279,11 @@ public class Card implements Serializable {
 
 	public void setAnswerTranscription(String answerTranscription) {
 		this.answerTranscription = answerTranscription;
+	}
+
+	public Card withAnswerTranscription(String answerTranscription) {
+		this.answerTranscription = answerTranscription;
+		return this;
 	}
 
 	@Column(name = "ANSWER_IMG1")
@@ -220,6 +313,23 @@ public class Card implements Serializable {
 		this.answerImage3 = answerImage3;
 	}
 
+	public Card withAnswerImage(String answerImage) {
+		if (this.answerImage1 == null) {
+			this.answerImage1 = answerImage;
+		}
+		else if (this.answerImage2 == null) {
+			this.answerImage2 = answerImage;
+		}
+		else if (this.answerImage3 == null) {
+			this.answerImage3 = answerImage;
+		}
+		else {
+			throw new IllegalStateException("No answer image can be added since there's no free slot anymore.");
+		}
+
+		return this;
+	}
+
 	@Column(name = "ANSWER_AUDIO1")
 	public String getAnswerAudio1() {
 		return answerAudio1;
@@ -247,6 +357,23 @@ public class Card implements Serializable {
 		this.answerAudio3 = answerAudio3;
 	}
 
+	public Card withAnswerAudio(String answerAudio) {
+		if (this.answerAudio1 == null) {
+			this.answerAudio1 = answerAudio;
+		}
+		else if (this.answerAudio2 == null) {
+			this.answerAudio2 = answerAudio;
+		}
+		else if (this.answerAudio3 == null) {
+			this.answerAudio3 = answerAudio;
+		}
+		else {
+			throw new IllegalStateException("No answer audio can be added since there's no free slot anymore.");
+		}
+
+		return this;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -260,5 +387,34 @@ public class Card implements Serializable {
 	@Override
 	public int hashCode() {
 		return uuid != null ? uuid.hashCode() : 0;
+	}
+
+	@Override
+	public String toString() {
+		return "Card{" +
+				"uuid='" + uuid + '\'' +
+				", created=" + created +
+				", updated=" + updated +
+				", published=" + published +
+				", unit='" + unit + '\'' +
+				", questionText='" + questionText + '\'' +
+				", questionExample='" + questionExample + '\'' +
+				", questionTranscription='" + questionTranscription + '\'' +
+				", questionImage1='" + questionImage1 + '\'' +
+				", questionImage2='" + questionImage2 + '\'' +
+				", questionImage3='" + questionImage3 + '\'' +
+				", questionAudio1='" + questionAudio1 + '\'' +
+				", questionAudio2='" + questionAudio2 + '\'' +
+				", questionAudio3='" + questionAudio3 + '\'' +
+				", answerText='" + answerText + '\'' +
+				", answerExample='" + answerExample + '\'' +
+				", answerTranscription='" + answerTranscription + '\'' +
+				", answerImage1='" + answerImage1 + '\'' +
+				", answerImage2='" + answerImage2 + '\'' +
+				", answerImage3='" + answerImage3 + '\'' +
+				", answerAudio1='" + answerAudio1 + '\'' +
+				", answerAudio2='" + answerAudio2 + '\'' +
+				", answerAudio3='" + answerAudio3 + '\'' +
+				'}';
 	}
 }
