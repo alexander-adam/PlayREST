@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,6 +20,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 @Table(name = "CARD")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries(
 		{@NamedQuery(
 				name = "findByUUID",

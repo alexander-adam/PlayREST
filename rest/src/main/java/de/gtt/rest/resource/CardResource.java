@@ -14,15 +14,15 @@ import de.gtt.core.entity.Card;
 @Path("card")
 public class CardResource {
 	@GET
-	@Path("/card/{uuid}")
+	@Path("/{uuid}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Card getCard(@PathParam("uuid") String uuid) {
 		return CardService.get(uuid);
 	}
 
 	@GET
-	@Path("/card")
-	@Produces(MediaType.APPLICATION_JSON)
+//	@Path("/card")
+	@Produces(MediaType.TEXT_XML)
 	public List<Card> getCard() {
 		return CardService.getAll();
 	}

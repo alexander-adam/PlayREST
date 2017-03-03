@@ -11,7 +11,7 @@
             <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver" />
             <property name="hibernate.connection.username" value="sa" />
             <property name="hibernate.connection.password" value="manager" />
-            <property name="hibernate.connection.url" value="jdbc:hsqldb:data/card_depot" />
+            <property name="hibernate.connection.url" value="jdbc:hsqldb:D:/[Workspaces]/idea/PlayREST/core/data/card_depot" />
             <property name="hibernate.hbm2ddl.auto" value="update" />
             <property name="hibernate.show_sql" value="true" />
             <!--<property name="org.hibernate.flushMode" value="COMMIT"/>-->
