@@ -39,7 +39,26 @@
             </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="card in cards|orderBy:orderByField:reverseSort" class="item" style="cursor: move;">
+        <tr ng-repeat="card in cards|orderBy:orderByField:reverseSort" class="item">
+            <td>{{card.position}}</td>
+            <td>{{card.questionText}}</td>
+            <td>{{card.answerText}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+
+    <table style="width:auto;" class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Position</th>
+            <th>Question</th>
+            <th>Answer</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="card in cards" class="item" style="cursor: move;">
             <td>{{card.position}}</td>
             <td>{{card.questionText}}</td>
             <td>{{card.answerText}}</td>
