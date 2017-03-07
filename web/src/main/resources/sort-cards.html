@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:ng="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Sort cards</title>
+
+    <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+
+    <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+    <!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+
+    <script src="https://code.angularjs.org/1.6.2/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.6.2/angular-animate.min.js"></script>
+    <script src="https://code.angularjs.org/1.6.2/angular-route.min.js"></script>
+    <script src="sort-cards.js"></script>
+</head>
+<body>
+<div ng-app="cardsApp" ng-controller="sortCardsCtrl" style="width:300px">
+    <span class="label">Ordered By: {{orderByField}}, Reverse Sort: {{reverseSort}}</span><br><br>
+
+    <table style="width:auto;" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    <a href="#" ng-click="orderByField='position'; reverseSort = !reverseSort">
+                        Position <span ng-show="orderByField == 'position'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                    </a>
+                </th>
+                <th>
+                    <a href="#" ng-click="orderByField='questionText'; reverseSort = !reverseSort">
+                        Question <span ng-show="orderByField == 'questionText'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                    </a>
+                </th>
+                <th>
+                    <a href="#" ng-click="orderByField='answerText'; reverseSort = !reverseSort">
+                        Answer <span ng-show="orderByField == 'answerText'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="card in cards|orderBy:orderByField:reverseSort" class="item" style="cursor: move;">
+            <td>{{card.position}}</td>
+            <td>{{card.questionText}}</td>
+            <td>{{card.answerText}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

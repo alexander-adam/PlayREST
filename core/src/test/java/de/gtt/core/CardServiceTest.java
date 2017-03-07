@@ -12,6 +12,8 @@ public class CardServiceTest extends TestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		cardService = new CardService();
+//		int deleted = cardService.deleteAll();
+//		System.out.println("Deleted " + deleted + " cards.");
 	}
 
 	public void tearDown() throws Exception {
@@ -40,27 +42,34 @@ public class CardServiceTest extends TestCase {
 //	}
 
 	public void testFluentInterface() throws Exception {
-		System.out.println("Initial: " + cardService.getAll().size());
+		long position = 0;
+		List<Card> cards = cardService.getAll();
+
+		if (!cards.isEmpty()) {
+			System.out.println("Initial: " + cards.size());
+			position = cards.get(cards.size() - 1).getPosition() + 1;
+		}
 
 		Card card = new Card().
+				withPosition(position).
 				withUnit("Simple words").
-				withQuestionText("Frage").
-				withQuestionTranscription("Frage").
-				withQuestionExample("Das ist keine Frage").
+				withQuestionText("Frage " + position).
+				withQuestionTranscription("Frage " + position).
+				withQuestionExample("Das ist keine Frage " + position).
 				withQuestionImage("Image 1").
 				withQuestionImage("Image 2").
 				withQuestionImage("Image 3").
-				withAnswerText("Question").
-				withAnswerTranscription("Question").
-				withAnswerExample("It's not a question").
+				withAnswerText("Question " + position).
+				withAnswerTranscription("Question " + position).
+				withAnswerExample("It's not a question " + position).
 				withAnswerAudio("Audio 1").
 				withAnswerAudio("Audio 2");
 
-		cardService.save(card);
+		card = cardService.save(card);
 
 		card.withAnswerImage("Image 1");
 
-		cardService.save(card);
+		card = cardService.save(card);
 
 		card = cardService.get(card.getUuid());
 		assertNotNull(card);

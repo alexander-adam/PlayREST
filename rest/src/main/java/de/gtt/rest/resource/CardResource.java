@@ -21,9 +21,8 @@ public class CardResource {
 	}
 
 	@GET
-//	@Path("/card")
-	@Produces(MediaType.TEXT_XML)
-	public List<Card> getCard() {
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Card> getCards() {
 		return CardService.getAll();
 	}
 }

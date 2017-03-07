@@ -42,4 +42,31 @@ public class CardService {
 			throw new IllegalStateException("More than one card found for uuid: " + uuid);
 		}
 	}
+
+	public static boolean delete(String uuid) {
+		EntityManager entityManager = HibernateUtil.getEntityManager();
+		entityManager.getTransaction().begin();
+
+		int deleted = entityManager.
+				createNamedQuery("deleteByUUID").
+				setParameter("uuid", uuid).
+				executeUpdate();
+
+		entityManager.getTransaction().commit();
+
+		return deleted == 1;
+	}
+
+	public static int deleteAll() {
+		EntityManager entityManager = HibernateUtil.getEntityManager();
+		entityManager.getTransaction().begin();
+
+		int deleted = entityManager.
+				createNamedQuery("deleteAll").
+				executeUpdate();
+
+		entityManager.getTransaction().commit();
+
+		return deleted;
+	}
 }

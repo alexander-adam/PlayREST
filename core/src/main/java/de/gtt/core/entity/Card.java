@@ -9,34 +9,39 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 @Entity
 @Table(name = "CARD")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@NamedQueries(
-		{@NamedQuery(
+@NamedQueries({
+		@NamedQuery(
 				name = "findByUUID",
-				query = "SELECT card FROM de.gtt.core.entity.Card card WHERE card.uuid = :uuid"
-		),
+				query = "SELECT card FROM de.gtt.core.entity.Card card WHERE card.uuid = :uuid"),
 		@NamedQuery(
 				name = "findAll",
-				query = "SELECT card FROM de.gtt.core.entity.Card card ORDER BY card.created DESC"
-		)}
-)
+				query = "SELECT card FROM de.gtt.core.entity.Card card ORDER BY card.position"),
+		@NamedQuery(
+				name = "deleteByUUID",
+				query = "DELETE FROM de.gtt.core.entity.Card card WHERE card.uuid = :uuid"),
+		@NamedQuery(
+				name = "deleteAll",
+				query = "DELETE FROM de.gtt.core.entity.Card")
+})
 public class Card implements Serializable {
 	private String uuid;
 
 	private Date created;
 	private Date updated;
 	private Date published;
+
+	private long position;
 
 	private String unit;
 
@@ -75,7 +80,6 @@ public class Card implements Serializable {
 	}
 
 	@Column(name = "CREATED")
-	@CreationTimestamp
 	public Date getCreated() {
 		return created;
 	}
@@ -85,7 +89,6 @@ public class Card implements Serializable {
 	}
 
 	@Column(name = "UPDATED")
-	@UpdateTimestamp
 	public Date getUpdated() {
 		return updated;
 	}
@@ -101,6 +104,20 @@ public class Card implements Serializable {
 
 	public void setPublished(Date published) {
 		this.published = published;
+	}
+
+	@Column(name = "POSITION")
+	public long getPosition() {
+		return position;
+	}
+
+	public void setPosition(long position) {
+		this.position = position;
+	}
+
+	public Card withPosition(long position) {
+		this.position = position;
+		return this;
 	}
 
 	@Column(name = "UNIT")
@@ -377,6 +394,16 @@ public class Card implements Serializable {
 		return this;
 	}
 
+	@PrePersist
+	protected void onCreate() {
+		created = new Date();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updated = new Date();
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -395,7 +422,8 @@ public class Card implements Serializable {
 	@Override
 	public String toString() {
 		return "Card{" +
-				"uuid='" + uuid + '\'' +
+				"position='" + position + '\'' +
+				", uuid='" + uuid + '\'' +
 				", created=" + created +
 				", updated=" + updated +
 				", published=" + published +
