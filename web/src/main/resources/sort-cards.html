@@ -5,66 +5,95 @@
     <title>Sort cards</title>
 
     <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-
-    <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
-    <!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
 
     <script src="https://code.angularjs.org/1.6.2/angular.min.js"></script>
     <script src="https://code.angularjs.org/1.6.2/angular-animate.min.js"></script>
     <script src="https://code.angularjs.org/1.6.2/angular-route.min.js"></script>
+
+    <script src="hammer.min.js"></script>
+    <script src="angular-hammer.js"></script>
+    <script src="ngRepeatReorder.js"></script>
+
+    <script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
+
     <script src="sort-cards.js"></script>
+
+    <style>
+        .form-group, {
+            float: left;
+            clear: left;
+        }
+
+        .ng-repeat-reorder-parent, [ng-repeat-reorder] {
+            z-index: 10;
+            position: relative;
+        }
+
+        [ng-repeat-reorder].dragging {
+            z-index: 11;
+            position: absolute;
+            background-color: AliceBlue;
+        }
+
+        .form-group.dragging-after div {
+            background-color: LightGreen;
+        }
+
+        .form-group.dragging-before div {
+            background-color: LightPink;
+        }
+
+        .active-drag-below {
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .ng-repeat-reorder-parent .row {
+            border: solid 1px;
+            width: 472px;
+            margin:0px;
+        }
+    </style>
 </head>
 <body>
-<div ng-app="cardsApp" ng-controller="sortCardsCtrl" style="width:300px">
-    <span class="label">Ordered By: {{orderByField}}, Reverse Sort: {{reverseSort}}</span><br><br>
+<div ng-app="cardsApp" ng-controller="sortCardsCtrl">
+    <div class="container">
+        <div ng-repeat-reorder="card in cards" ng-repeat-reorder-handle="i.fa.fa-bars" class="form-group has-feedback transition row" ng-class="{'last-player': $index == cards.length-1}">
+            <div class="col-sm-2" style="width:40px;">{{card.position}}</div>
+            <div class="col-sm-4" style="width:200px;">{{card.questionText}}</div>
+            <div class="col-sm-4" style="width:200px;">{{card.answerText}}</div>
+            <div class="col-sm-2" style="width:30px;"><i style="cursor: move;" class="fa fa-bars"></i></div>
+        </div>
+    </div>
+    <input ng-click="saveCards()" type="button" value="Save">
 
-    <table style="width:auto;" class="table table-bordered">
-        <thead>
-            <tr>
-                <th>
-                    <a href="#" ng-click="orderByField='position'; reverseSort = !reverseSort">
-                        Position <span ng-show="orderByField == 'position'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                    </a>
-                </th>
-                <th>
-                    <a href="#" ng-click="orderByField='questionText'; reverseSort = !reverseSort">
-                        Question <span ng-show="orderByField == 'questionText'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                    </a>
-                </th>
-                <th>
-                    <a href="#" ng-click="orderByField='answerText'; reverseSort = !reverseSort">
-                        Answer <span ng-show="orderByField == 'answerText'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                    </a>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="card in cards|orderBy:orderByField:reverseSort" class="item">
-            <td>{{card.position}}</td>
-            <td>{{card.questionText}}</td>
-            <td>{{card.answerText}}</td>
-        </tr>
-        </tbody>
-    </table>
-    <br>
-    <br>
 
-    <table style="width:auto;" class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Position</th>
-            <th>Question</th>
-            <th>Answer</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="card in cards" class="item" style="cursor: move;">
-            <td>{{card.position}}</td>
-            <td>{{card.questionText}}</td>
-            <td>{{card.answerText}}</td>
-        </tr>
-        </tbody>
-    </table>
+    <a class="btn btn-default" href ng-click="show()">Show a Modal</a>
+    <p>{{message}}</p>
+
+    <!-- The actual modal template, just a bit o bootstrap -->
+    <script type="text/ng-template" id="modal.html">
+        <div class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Yes or No?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>It's your call...</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">No</button>
+                        <button type="button" ng-click="close('Yes')" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
 </div>
 </body>
 </html>

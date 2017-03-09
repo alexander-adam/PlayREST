@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:ng="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Sort cards</title>
+
+    <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+    <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+    <!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+
+    <script src="https://code.angularjs.org/1.6.2/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.6.2/angular-animate.min.js"></script>
+    <script src="https://code.angularjs.org/1.6.2/angular-route.min.js"></script>
+    <script src="sort-cards.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            <!--$("#sortable1, #sortable2").sortable({-->
+            $("#sortable1").sortable({
+                connectWith: ".connectedSortable",
+                stop: function(event, ui) {
+                    alert("New position: " + ui.item.index());
+                }
+            }).disableSelection();
+        });
+    </script>
+</head>
+<body>
+<div ng-app="cardsApp" ng-controller="sortCardsCtrl" style="width:300px">
+    <span class="label">Ordered By: {{orderByField}}, Reverse Sort: {{reverseSort}}</span><br><br>
+
+    <table style="width:auto;" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    <a href="#" ng-click="orderByField='position'; reverseSort = !reverseSort">
+                        Position <span ng-show="orderByField == 'position'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                    </a>
+                </th>
+                <th>
+                    <a href="#" ng-click="orderByField='questionText'; reverseSort = !reverseSort">
+                        Question <span ng-show="orderByField == 'questionText'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                    </a>
+                </th>
+                <th>
+                    <a href="#" ng-click="orderByField='answerText'; reverseSort = !reverseSort">
+                        Answer <span ng-show="orderByField == 'answerText'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="card in cards | orderBy : orderByField : reverseSort" class="item">
+            <td>{{card.position}}</td>
+            <td>{{card.questionText}}</td>
+            <td>{{card.answerText}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <table style="width:auto;" class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Position</th>
+            <th>Question</th>
+            <th>Answer</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="card in cards  | limitTo : 10 : 3" class="item" style="cursor: move;">
+            <td>{{card.position}}</td>
+            <td>{{card.questionText}}</td>
+            <td>{{card.answerText}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <table style="width:auto;" class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Index</th>
+            <th>Position</th>
+            <th>Question</th>
+            <th>Answer</th>
+        </tr>
+        </thead>
+        <tbody id="sortable1" class="connectedSortable">
+        <tr ng-repeat="card in cards" class="item" style="cursor: move;">
+            <td>{{$index}}</td>
+            <td>{{card.position}}</td>
+            <td>{{card.questionText}}</td>
+            <td>{{card.answerText}}</td>
+        </tr>
+        <!--<tr class="item" style="cursor: move;">-->
+            <!--<td>1</td><td>Q1</td><td>A1</td>-->
+        <!--</tr>-->
+        <!--<tr class="item" style="cursor: move;">-->
+            <!--<td>2</td><td>Q2</td><td>A2</td>-->
+        <!--</tr>-->
+        <!--<tr class="item" style="cursor: move;">-->
+            <!--<td>3</td><td>Q3</td><td>A3</td>-->
+        <!--</tr>-->
+        <!--<tr class="item" style="cursor: move;">-->
+            <!--<td>4</td><td>Q4</td><td>A4</td>-->
+        <!--</tr>-->
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -2,11 +2,14 @@ package de.gtt.rest.resource;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import de.gtt.core.CardService;
 import de.gtt.core.entity.Card;
@@ -22,7 +25,25 @@ public class CardResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Card> getCards() {
-		return CardService.getAll();
+	public CardList getCards() {
+		List<Card> cards = CardService.getAll();
+		return new CardList(cards);
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public CardList save(CardList cardList) {
+		List<Card> cards = cardList.getCards();
+
+		for (long i = 0; i < cards.size(); i++) {
+			Card card = cards.get((int) i);
+
+			if (card.getPosition() != i) {
+				card.setPosition(i);
+			}
+		}
+
+		return cardList;
 	}
 }
