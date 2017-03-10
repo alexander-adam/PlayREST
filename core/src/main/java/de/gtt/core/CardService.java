@@ -1,5 +1,7 @@
 package de.gtt.core;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -23,6 +25,22 @@ public class CardService {
 		entityManager.getTransaction().commit();
 
 		return card;
+	}
+
+	public static List<Card> save(List<Card> cards) {
+		EntityManager entityManager = HibernateUtil.getEntityManager();
+		entityManager.getTransaction().begin();
+
+		List<Card> savedCards = new ArrayList<Card>(cards.size());
+
+		for (Card card : cards) {
+			card = entityManager.merge(card);
+			savedCards.add(card);
+		}
+
+		entityManager.getTransaction().commit();
+
+		return savedCards;
 	}
 
 	public static Card get(String uuid) {

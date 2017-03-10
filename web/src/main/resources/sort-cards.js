@@ -1,39 +1,33 @@
 (function() {
-	var cardsApp = angular.module('cardsApp', ['ngRepeatReorder', 'angularModalService']);
+	var cardsApp = angular.module('cardsApp', ['ngRepeatReorder']);
 
-	cardsApp.controller('sortCardsCtrl', function($scope, $http, ModalService) {
+	cardsApp.controller('sortCardsCtrl', function($scope, $http) {
         $scope.orderByField = 'position';
         $scope.reverseSort = false;
+        $scope.loading = false;
 
-        $scope.show = function() {
-            ModalService.showModal({
-                templateUrl: 'modal.html',
-                controller: "ModalController"
-            }).then(function(modal) {
-                modal.element.modal();
-                modal.close.then(function(result) {
-                    $scope.message = "You said " + result;
-                });
-            });
-        };
+		$scope.loadCards = function() {
+            $scope.loading = true;
 
-  		$http.get('http://localhost:8080/rest/card').then(
-            function successCallback(response) {
-                $scope.cards = response.data.cards;
-                $scope.cardsData = response.data;
-            },
-            function errorCallback(response) {
-                alert("Error! " + response.statusText);
-                $scope.errorMsg = response.statusText;
-            }
-		);
+            $http.get('http://localhost:8080/rest/card').then(
+                function successCallback(response) {
+                    $scope.cards = response.data.cards;
+                    $scope.cardsData = response.data;
+                    $scope.loading = false;
+                },
+                function errorCallback(response) {
+                    alert("Error! " + response.statusText);
+                    $scope.errorMsg = response.statusText;
+                    $scope.loading = false;
+                }
+            );
+		};
 
 		$scope.saveCards = function() {
-//		    $scope.cardsData.cards = $scope.cards;
             var res = $http.post('http://localhost:8080/rest/card', $scope.cardsData).then(
                  function successCallback(response) {
-                     $scope.cards = response.data.cards;
-                     $scope.cardsData = response.data;
+//                     $scope.cards = response.data.cards;
+//                     $scope.cardsData = response.data;
                  },
                  function errorCallback(response) {
                      alert("Error! " + response.statusText);
@@ -54,10 +48,4 @@
             }
         };
 	});
-
-    cardsApp.controller('ModalController', function($scope, close) {
-        $scope.close = function(result) {
-            close(result, 500); // close, but give 500ms for bootstrap to animate
-        };
-    });
 })();

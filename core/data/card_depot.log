@@ -1,0 +1,15 @@
+/*C3*/SET SCHEMA PUBLIC
+DELETE FROM CARD WHERE UUID='f7fc3e5f-20f4-409e-b534-c5c2b8d0602f'
+INSERT INTO CARD VALUES('f7fc3e5f-20f4-409e-b534-c5c2b8d0602f','Audio 1','Audio 2',NULL,'It''s not a question 4','Image 1',NULL,NULL,'Question 4','Question 4','2017-03-07 10:13:31.477000',0,NULL,NULL,NULL,NULL,'Das ist keine Frage 4','Image 1','Image 2','Image 3','Frage 4','Frage 4','Simple words','2017-03-10 15:58:12.593000')
+DELETE FROM CARD WHERE UUID='c6f9b817-5948-47cd-9a65-5114f3f322e6'
+INSERT INTO CARD VALUES('c6f9b817-5948-47cd-9a65-5114f3f322e6','Audio 1','Audio 2',NULL,'It''s not a question 3','Image 1',NULL,NULL,'Question 3','Question 3','2017-03-07 10:13:20.701000',1,NULL,NULL,NULL,NULL,'Das ist keine Frage 3','Image 1','Image 2','Image 3','Frage 3','Frage 3','Simple words','2017-03-10 15:58:12.600000')
+DELETE FROM CARD WHERE UUID='e1f8571d-c0ad-4b4b-8d14-e74f63ecd61b'
+INSERT INTO CARD VALUES('e1f8571d-c0ad-4b4b-8d14-e74f63ecd61b','Audio 1','Audio 2',NULL,'It''s not a question 1','Image 1',NULL,NULL,'Question 1','Question 1','2017-03-07 10:12:58.658000',3,NULL,NULL,NULL,NULL,'Das ist keine Frage 1','Image 1','Image 2','Image 3','Frage 1','Frage 1','Simple words','2017-03-10 15:58:12.600000')
+DELETE FROM CARD WHERE UUID='bce28992-f054-4a1e-b32a-79f4fd63364a'
+INSERT INTO CARD VALUES('bce28992-f054-4a1e-b32a-79f4fd63364a','Audio 1','Audio 2',NULL,'It''s not a question 0','Image 1',NULL,NULL,'Question 0','Question 0','2017-03-07 10:12:48.251000',4,NULL,NULL,NULL,NULL,'Das ist keine Frage 0','Image 1','Image 2','Image 3','Frage 0','Frage 0','Simple words','2017-03-10 15:58:12.602000')
+COMMIT
+DELETE FROM CARD WHERE UUID='c6f9b817-5948-47cd-9a65-5114f3f322e6'
+INSERT INTO CARD VALUES('c6f9b817-5948-47cd-9a65-5114f3f322e6','Audio 1','Audio 2',NULL,'It''s not a question 3','Image 1',NULL,NULL,'Question 3','Question 3','2017-03-07 10:13:20.701000',0,NULL,NULL,NULL,NULL,'Das ist keine Frage 3','Image 1','Image 2','Image 3','Frage 3','Frage 3','Simple words','2017-03-10 15:58:56.205000')
+DELETE FROM CARD WHERE UUID='f7fc3e5f-20f4-409e-b534-c5c2b8d0602f'
+INSERT INTO CARD VALUES('f7fc3e5f-20f4-409e-b534-c5c2b8d0602f','Audio 1','Audio 2',NULL,'It''s not a question 4','Image 1',NULL,NULL,'Question 4','Question 4','2017-03-07 10:13:31.477000',1,NULL,NULL,NULL,NULL,'Das ist keine Frage 4','Image 1','Image 2','Image 3','Frage 4','Frage 4','Simple words','2017-03-10 15:58:56.205000')
+COMMIT

@@ -7,6 +7,9 @@
     <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <script src="https://code.angularjs.org/1.6.2/angular.min.js"></script>
     <script src="https://code.angularjs.org/1.6.2/angular-animate.min.js"></script>
     <script src="https://code.angularjs.org/1.6.2/angular-route.min.js"></script>
@@ -14,8 +17,6 @@
     <script src="hammer.min.js"></script>
     <script src="angular-hammer.js"></script>
     <script src="ngRepeatReorder.js"></script>
-
-    <script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
 
     <script src="sort-cards.js"></script>
 
@@ -54,46 +55,49 @@
         .ng-repeat-reorder-parent .row {
             border: solid 1px;
             width: 472px;
-            margin:0px;
+            margin: 0px;
+        }
+
+        div.position-changed {
+            background-color: LightGrey;
         }
     </style>
 </head>
 <body>
 <div ng-app="cardsApp" ng-controller="sortCardsCtrl">
-    <div class="container">
-        <div ng-repeat-reorder="card in cards" ng-repeat-reorder-handle="i.fa.fa-bars" class="form-group has-feedback transition row" ng-class="{'last-player': $index == cards.length-1}">
-            <div class="col-sm-2" style="width:40px;">{{card.position}}</div>
-            <div class="col-sm-4" style="width:200px;">{{card.questionText}}</div>
-            <div class="col-sm-4" style="width:200px;">{{card.answerText}}</div>
-            <div class="col-sm-2" style="width:30px;"><i style="cursor: move;" class="fa fa-bars"></i></div>
-        </div>
-    </div>
-    <input ng-click="saveCards()" type="button" value="Save">
+    <!-- Trigger the modal with a button -->
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" ng-click="loadCards()">Reorder cards</button>
+    <!--<a href="#" data-toggle="modal" data-target="#myModal">Open Modal</a>-->
 
+    <!-- TODO http://stackoverflow.com/questions/333665/how-to-prevent-closing-browser-window-in-javascript -->
 
-    <a class="btn btn-default" href ng-click="show()">Show a Modal</a>
-    <p>{{message}}</p>
-
-    <!-- The actual modal template, just a bit o bootstrap -->
-    <script type="text/ng-template" id="modal.html">
-        <div class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Yes or No?</h4>
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <h4 class="modal-title">Reorder cards</h4>
+                </div>
+                <div class="modal-body" style="max-height: 100px; overflow: auto;">
+                    <h1 ng-show="loading">Loading...</h1>
+                    <div class="container">
+                        <div ng-repeat-reorder="card in cards" ng-repeat-reorder-handle="i.fa.fa-bars" class="form-group has-feedback transition row" ng-class="{'position-changed': $index != card.position}">
+                            <div class="col-sm-2" style="width:40px;">{{card.position}}</div>
+                            <div class="col-sm-4" style="width:200px;">{{card.questionText}}</div>
+                            <div class="col-sm-4" style="width:200px;">{{card.answerText}}</div>
+                            <div class="col-sm-2" style="width:30px;"><i style="cursor: move;" class="fa fa-bars"></i></div>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <p>It's your call...</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">No</button>
-                        <button type="button" ng-click="close('Yes')" class="btn btn-primary" data-dismiss="modal">Yes</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="saveCards()">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
-    </script>
+    </div>
 </div>
 </body>
 </html>

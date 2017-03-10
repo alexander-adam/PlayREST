@@ -1,5 +1,6 @@
 package de.gtt.rest.resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -32,18 +33,24 @@ public class CardResource {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public CardList save(CardList cardList) {
+//	@Produces(MediaType.APPLICATION_JSON)
+	public void save(CardList cardList) {
 		List<Card> cards = cardList.getCards();
+		List<Card> updatedCards = new ArrayList<Card>();
 
 		for (long i = 0; i < cards.size(); i++) {
 			Card card = cards.get((int) i);
 
 			if (card.getPosition() != i) {
 				card.setPosition(i);
+				updatedCards.add(card);
 			}
 		}
 
-		return cardList;
+		if (!updatedCards.isEmpty()) {
+			CardService.save(updatedCards);
+		}
+
+//		return cardList;
 	}
 }
